@@ -7,12 +7,14 @@ class App extends Component {
     render() {
         const todos = [
             {
-                key:1,
+        
+                id: 1, 
                 text: "hello",
                 completed: true
             },
             {
-                key:2,
+        
+                id: 2, 
                 text: "world",
                 completed: false
             } 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 const TodoItem = ({id, text, completed}) => {
     return (
@@ -10,7 +10,7 @@ const TodoItem = ({id, text, completed}) => {
 }
 
 TodoItem.propTypes = {
-    completed: PropTypes.boot.isRequired,
+    completed: PropTypes.bool.isRequired,
     text: PropTypes.string.isRequired
 }
 
