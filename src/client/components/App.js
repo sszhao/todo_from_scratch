@@ -21,7 +21,7 @@ class App extends Component {
             <div> 
                 <AddTodoBar />
                 <TodoList todos={todos} />
-                <FilterLinkGroup />
+                <FilterLinkGroup filter="Active" />
             </div>
         );
     }

@@ -1,16 +1,22 @@
 import React from 'react';
 import FilterLink from './FilterLink';
 
-const FilterLinkGroup = () => {
+const FilterLinkGroup = ({filter}) => {
     return (
         <div>
            Show:
             {" "} 
-            <FilterLink text="All" active={true} />
+            <FilterLink filter={filter}>
+            All
+            </FilterLink>
             {", "}
-            <FilterLink text="Completed" active={false} />
+            <FilterLink filter={filter}>
+            Active
+            </FilterLink>
             {", "}
-            <FilterLink text="Incompleted" active={false} />
+            <FilterLink filter={filter}>
+            Completed
+            </FilterLink>
         </div>
     );
 };
