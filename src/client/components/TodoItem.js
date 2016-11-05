@@ -9,4 +9,9 @@ const TodoItem = ({id, text, completed}) => {
     );
 }
 
+TodoItem.propTypes = {
+    completed: PropTypes.boot.isRequired,
+    text: PropTypes.string.isRequired
+}
+
 export default TodoItem;
