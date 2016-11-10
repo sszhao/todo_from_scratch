@@ -1,29 +1,29 @@
 import React, {Component} from 'react';
-import AddTodoBar from './AddTodoBar';
-import TodoList from './TodoList';
+import AddTodoBar from '../containers/AddTodoBarContainer';
+import TodoListContainer from '../containers/TodoListContainer';
 import FilterLinkGroup from './FilterLinkGroup';
 
 class App extends Component {
     render() {
-        const todos = [
-            {
+        // const todos = [
+        //     {
         
-                id: 1, 
-                text: "hello",
-                completed: true
-            },
-            {
+        //         id: 1, 
+        //         text: "hello",
+        //         completed: true
+        //     },
+        //     {
         
-                id: 2, 
-                text: "world",
-                completed: false
-            } 
-        ];
+        //         id: 2, 
+        //         text: "world",
+        //         completed: false
+        //     } 
+        // ];
         return (
             <div> 
                 <AddTodoBar />
-                <TodoList todos={todos} />
-                <FilterLinkGroup filter="Active" />
+                <TodoListContainer />
+                <FilterLinkGroup />
             </div>
         );
     }

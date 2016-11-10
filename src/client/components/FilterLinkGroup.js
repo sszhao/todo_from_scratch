@@ -1,22 +1,23 @@
 import React from 'react';
-import FilterLink from './FilterLink';
+import FilterLinkContainer from '../containers/FilterLinkContainer';
 
 const FilterLinkGroup = ({filter}) => {
+    console.log("FilterLinkGroup filter is " + filter);
     return (
         <div>
            Show:
             {" "} 
-            <FilterLink filter={filter}>
+            <FilterLinkContainer filter={filter}>
             All
-            </FilterLink>
+            </FilterLinkContainer>
             {", "}
-            <FilterLink filter={filter}>
+            <FilterLinkContainer filter={filter}>
             Active
-            </FilterLink>
+            </FilterLinkContainer>
             {", "}
-            <FilterLink filter={filter}>
+            <FilterLinkContainer filter={filter}>
             Completed
-            </FilterLink>
+            </FilterLinkContainer>
         </div>
     );
 };
