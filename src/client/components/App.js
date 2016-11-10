@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AddTodoBar from '../containers/AddTodoBarContainer';
 import TodoListContainer from '../containers/TodoListContainer';
-import FilterLinkGroup from './FilterLinkGroup';
+import FilterLinkContainer from '../containers/FilterLinkContainer';
 
 class App extends Component {
     render() {
@@ -23,7 +23,7 @@ class App extends Component {
             <div> 
                 <AddTodoBar />
                 <TodoListContainer />
-                <FilterLinkGroup />
+                <FilterLinkContainer />
             </div>
         );
     }

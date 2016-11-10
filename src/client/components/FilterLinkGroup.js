@@ -1,23 +1,24 @@
 import React from 'react';
-import FilterLinkContainer from '../containers/FilterLinkContainer';
+import FilterLink from './FilterLink';
 
-const FilterLinkGroup = ({filter}) => {
+const FilterLinkGroup = ({filter, numOfActiveItems, onClick}) => {
     console.log("FilterLinkGroup filter is " + filter);
     return (
         <div>
            Show:
             {" "} 
-            <FilterLinkContainer filter={filter}>
+            <FilterLink filter={filter} onClick={onClick}>
             All
-            </FilterLinkContainer>
+            </FilterLink>
             {", "}
-            <FilterLinkContainer filter={filter}>
+            <FilterLink filter={filter} onClick={onClick}>
             Active
-            </FilterLinkContainer>
+            </FilterLink>
             {", "}
-            <FilterLinkContainer filter={filter}>
+            <FilterLink filter={filter} onClick={onClick}>
             Completed
-            </FilterLinkContainer>
+            </FilterLink>
+            {"  (You have "} {numOfActiveItems} {" incompleted items)"}
         </div>
     );
 };
