@@ -5,17 +5,26 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build",
-    "build": "webpack -d && cp src/server/index.html dist/index.html && webpack-dev-server --content-base dist/ --inline --hot",
+    "build": "nodemon --watch src/server --exec babel-node -- src/server/server.js",
     "build:prod": "webpack -p && cp src/server/index.html dist/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shengdong Zhao",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.14.0",
+    "isomorphic-fetch": "^2.2.1",
+    "mongoose": "^4.6.8",
+    "nodemon": "^1.11.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-helmet": "^3.2.2",
     "react-redux": "^4.4.5",
-    "redux": "^3.6.0"
+    "react-router": "^3.0.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.2"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

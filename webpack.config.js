@@ -1,15 +1,26 @@
-var path = require("path");
+import path from 'path';
+import webpack from 'webpack';
 
 var DIST_DIR = path.resolve(__dirname, "dist");
 var SRC_DIR = path.resolve(__dirname, "src");
 
 var config = {
-    entry: SRC_DIR + "/client/index.js", 
+    entry: [
+        'webpack-hot-middleware/client',
+        SRC_DIR + "/client/index.js",
+    ], 
     output: {
-        path: DIST_DIR, 
-        filename: "bundle.js",
-        publicPath: "/"
+        //path: DIST_DIR, 
+        //filename: "bundle.js",
+        //publicPath: "/"
+        path: '/',
+        publicPath: '/'
     },
+    plugins: [
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
         loaders: [{
             test:/\.js?/,

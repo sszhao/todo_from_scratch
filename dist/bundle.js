@@ -57,23 +57,19 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 64);
 	
-	var _redux = __webpack_require__(/*! redux */ 41);
-	
 	var _App = __webpack_require__(/*! ./components/App */ 202);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _TodoAppReducer = __webpack_require__(/*! ./reducers/TodoAppReducer */ 211);
+	var _store = __webpack_require__(/*! ./store */ 211);
 	
-	var _TodoAppReducer2 = _interopRequireDefault(_TodoAppReducer);
+	var _store2 = _interopRequireDefault(_store);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var store = (0, _redux.createStore)(_TodoAppReducer2.default);
-	
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
-	    { store: store },
+	    { store: _store2.default },
 	    _react2.default.createElement(_App2.default, null)
 	), document.getElementById('app'));
 
@@ -23819,9 +23815,9 @@
 	
 	var _TodoListContainer2 = _interopRequireDefault(_TodoListContainer);
 	
-	var _FilterLinkGroup = __webpack_require__(/*! ./FilterLinkGroup */ 208);
+	var _FilterLinkContainer = __webpack_require__(/*! ../containers/FilterLinkContainer */ 208);
 	
-	var _FilterLinkGroup2 = _interopRequireDefault(_FilterLinkGroup);
+	var _FilterLinkContainer2 = _interopRequireDefault(_FilterLinkContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23862,7 +23858,7 @@
 	                null,
 	                _react2.default.createElement(_AddTodoBarContainer2.default, null),
 	                _react2.default.createElement(_TodoListContainer2.default, null),
-	                _react2.default.createElement(_FilterLinkGroup2.default, null)
+	                _react2.default.createElement(_FilterLinkContainer2.default, null)
 	            );
 	        }
 	    }]);
@@ -23977,6 +23973,13 @@
 	    };
 	};
 	
+	var removeTodoItem = exports.removeTodoItem = function removeTodoItem(id) {
+	    return {
+	        type: 'REMOVE_TODO_ITEM',
+	        id: id
+	    };
+	};
+	
 	var setFilter = exports.setFilter = function setFilter(filter) {
 	    return {
 	        type: 'SET_FILTER',
@@ -24031,12 +24034,9 @@
 	    };
 	};
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {
-	        onTodoClick: function onTodoClick() {
-	            return dispatch(_TodoAppActions.toggleTodoStatus);
-	        }
-	    };
+	var mapDispatchToProps = {
+	    onTodoClick: _TodoAppActions.toggleTodoStatus,
+	    onRemoveItem: _TodoAppActions.removeTodoItem
 	};
 	
 	var TodoListContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TodoList2.default);
@@ -24072,7 +24072,8 @@
 	
 	var TodoList = function TodoList(_ref) {
 	    var todos = _ref.todos,
-	        onTodoClick = _ref.onTodoClick;
+	        onTodoClick = _ref.onTodoClick,
+	        onRemoveItem = _ref.onRemoveItem;
 	
 	    console.log("todolist is " + todos);
 	    return _react2.default.createElement(
@@ -24084,6 +24085,9 @@
 	            }, todo, {
 	                onClick: function onClick() {
 	                    return onTodoClick(todo.id);
+	                },
+	                removeItem: function removeItem() {
+	                    return onRemoveItem(todo.id);
 	                }
 	            }));
 	        })
@@ -24095,7 +24099,9 @@
 	        id: _react.PropTypes.number.isRequired,
 	        completed: _react.PropTypes.bool.isRequired,
 	        text: _react.PropTypes.string.isRequired
-	    }).isRequired).isRequired
+	    }).isRequired).isRequired,
+	    onTodoClick: _react.PropTypes.func.isRequired,
+	    onRemoveItem: _react.PropTypes.func.isRequired
 	};
 	
 	exports.default = TodoList;
@@ -24122,16 +24128,29 @@
 	var TodoItem = function TodoItem(_ref) {
 	    var text = _ref.text,
 	        completed = _ref.completed,
-	        onClick = _ref.onClick;
+	        onClick = _ref.onClick,
+	        removeItem = _ref.removeItem;
 	
 	    return _react2.default.createElement(
-	        "li",
-	        {
-	            //the first {} is for expression, the second one is for object
-	            onClick: onClick,
-	            style: { textDecoration: completed ? "line-through" : "none" }
-	        },
-	        text
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	            "li",
+	            {
+	                //the first {} is for expression, the second one is for object
+	                onClick: onClick,
+	                style: { textDecoration: completed ? "line-through" : "none" }
+	            },
+	            text,
+	            ' ',
+	            _react2.default.createElement(
+	                "button",
+	                {
+	                    onClick: removeItem
+	                },
+	                "X"
+	            )
+	        )
 	    );
 	};
 	
@@ -24139,13 +24158,64 @@
 	    id: _react.PropTypes.number.isRequired,
 	    completed: _react.PropTypes.bool.isRequired,
 	    text: _react.PropTypes.string.isRequired,
-	    onClick: _react.PropTypes.func.isRequired
+	    onClick: _react.PropTypes.func.isRequired,
+	    removeItem: _react.PropTypes.func.isRequired
 	};
 	
 	exports.default = TodoItem;
 
 /***/ },
 /* 208 */
+/*!******************************************************!*\
+  !*** ./src/client/containers/FilterLinkContainer.js ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 34);
+	
+	var _FilterLinkGroup = __webpack_require__(/*! ../components/FilterLinkGroup */ 209);
+	
+	var _FilterLinkGroup2 = _interopRequireDefault(_FilterLinkGroup);
+	
+	var _TodoAppActions = __webpack_require__(/*! ../actions/TodoAppActions */ 204);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    //console.log("state.filter is " + state.filter);
+	    return {
+	        filter: state.filterGroup.filter,
+	        numOfActiveItems: state.todoList.todos.filter(function (t) {
+	            return !t.completed;
+	        }).length
+	    };
+	};
+	
+	//The following code is equivalent with the uncommented code below
+	// const mapDispatchToProps = ({
+	//         onClick: setFilter
+	// })
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        onClick: function onClick(f) {
+	            return dispatch((0, _TodoAppActions.setFilter)(f));
+	        }
+	    };
+	};
+	
+	var FilterLinkContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FilterLinkGroup2.default);
+	
+	exports.default = FilterLinkContainer;
+
+/***/ },
+/* 209 */
 /*!**************************************************!*\
   !*** ./src/client/components/FilterLinkGroup.js ***!
   \**************************************************/
@@ -24161,14 +24231,16 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilterLinkContainer = __webpack_require__(/*! ../containers/FilterLinkContainer */ 209);
+	var _FilterLink = __webpack_require__(/*! ./FilterLink */ 210);
 	
-	var _FilterLinkContainer2 = _interopRequireDefault(_FilterLinkContainer);
+	var _FilterLink2 = _interopRequireDefault(_FilterLink);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var FilterLinkGroup = function FilterLinkGroup(_ref) {
-	    var filter = _ref.filter;
+	    var filter = _ref.filter,
+	        numOfActiveItems = _ref.numOfActiveItems,
+	        onClick = _ref.onClick;
 	
 	    console.log("FilterLinkGroup filter is " + filter);
 	    return _react2.default.createElement(
@@ -24177,68 +24249,31 @@
 	        'Show:',
 	        " ",
 	        _react2.default.createElement(
-	            _FilterLinkContainer2.default,
-	            { filter: filter },
+	            _FilterLink2.default,
+	            { filter: filter, onClick: onClick },
 	            'All'
 	        ),
 	        ", ",
 	        _react2.default.createElement(
-	            _FilterLinkContainer2.default,
-	            { filter: filter },
+	            _FilterLink2.default,
+	            { filter: filter, onClick: onClick },
 	            'Active'
 	        ),
 	        ", ",
 	        _react2.default.createElement(
-	            _FilterLinkContainer2.default,
-	            { filter: filter },
+	            _FilterLink2.default,
+	            { filter: filter, onClick: onClick },
 	            'Completed'
-	        )
+	        ),
+	        "  (You have ",
+	        ' ',
+	        numOfActiveItems,
+	        ' ',
+	        " incompleted items)"
 	    );
 	};
 	
 	exports.default = FilterLinkGroup;
-
-/***/ },
-/* 209 */
-/*!******************************************************!*\
-  !*** ./src/client/containers/FilterLinkContainer.js ***!
-  \******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _reactRedux = __webpack_require__(/*! react-redux */ 34);
-	
-	var _FilterLink = __webpack_require__(/*! ../components/FilterLink */ 210);
-	
-	var _FilterLink2 = _interopRequireDefault(_FilterLink);
-	
-	var _TodoAppActions = __webpack_require__(/*! ../actions/TodoAppActions */ 204);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	    //console.log("state.filter is " + state.filter);
-	    return {
-	        filter: state.filterGroup.filter
-	    };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {
-	        onClick: function onClick() {
-	            dispatch((0, _TodoAppActions.setFilter)(ownProps.children));
-	        }
-	    };
-	};
-	
-	var FilterLinkContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FilterLink2.default);
-	
-	exports.default = FilterLinkContainer;
 
 /***/ },
 /* 210 */
@@ -24285,7 +24320,7 @@
 	            href: '#',
 	            onClick: function onClick(e) {
 	                e.preventDefault();
-	                _onClick();
+	                _onClick(children);
 	            }
 	        },
 	        children
@@ -24302,6 +24337,29 @@
 
 /***/ },
 /* 211 */
+/*!*****************************!*\
+  !*** ./src/client/store.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(/*! redux */ 41);
+	
+	var _TodoAppReducer = __webpack_require__(/*! ./reducers/TodoAppReducer */ 212);
+	
+	var _TodoAppReducer2 = _interopRequireDefault(_TodoAppReducer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = store = (0, _redux.createStore)(_TodoAppReducer2.default);
+
+/***/ },
+/* 212 */
 /*!***********************************************!*\
   !*** ./src/client/reducers/TodoAppReducer.js ***!
   \***********************************************/
@@ -24315,9 +24373,9 @@
 	
 	var _redux = __webpack_require__(/*! redux */ 41);
 	
-	var _TodoListReducer = __webpack_require__(/*! ./TodoListReducer */ 212);
+	var _TodoListReducer = __webpack_require__(/*! ./TodoListReducer */ 213);
 	
-	var _FilterGroupReducer = __webpack_require__(/*! ./FilterGroupReducer */ 213);
+	var _FilterGroupReducer = __webpack_require__(/*! ./FilterGroupReducer */ 214);
 	
 	var todoAppReducer = (0, _redux.combineReducers)({
 	  todoList: _TodoListReducer.todoList,
@@ -24329,7 +24387,7 @@
 	exports.default = todoAppReducer;
 
 /***/ },
-/* 212 */
+/* 213 */
 /*!************************************************!*\
   !*** ./src/client/reducers/TodoListReducer.js ***!
   \************************************************/
@@ -24399,13 +24457,19 @@
 	                    return todo(t, action);
 	                })
 	            });
+	        case 'REMOVE_TODO_ITEM':
+	            return _extends({}, state, {
+	                todos: state.todos.filter(function (t) {
+	                    return t.id !== action.id;
+	                })
+	            });
 	        default:
 	            return state;
 	    }
 	};
 
 /***/ },
-/* 213 */
+/* 214 */
 /*!***************************************************!*\
   !*** ./src/client/reducers/FilterGroupReducer.js ***!
   \***************************************************/

@@ -3,7 +3,7 @@ import TodoItem from './TodoItem';
 //import {toggleTodoStatus} from '../actions/TodoAppActions'
 
 const TodoList = ({todos, onTodoClick, onRemoveItem}) => {
-    console.log("todolist is " + todos);
+    //console.log("todolist is " + todos);
     return (
         <ul>
         {todos.map(todo => 
