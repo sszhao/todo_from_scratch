@@ -16,7 +16,7 @@ const AddTodoBar = ( {itemIndex, onAddTodo} ) => {
                         }
                         //console.log("Add todo item "+ input.value);
                         //onAddTodo(itemIndex, input.value);
-                        onAddTodo(input.value)
+                        onAddTodo(itemIndex,input.value)
                         input.value = '';
                     }}>
                     <input type="text" ref={node =>{ input = node}} className="form-control" placeholder="Todo Item ..." />
@@ -39,8 +39,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddTodo: (text) =>{
-            dispatch(addTodoItem(text));
+        onAddTodo: (itemIndex,text) => {
+            dispatch(addTodoItemRequest(itemIndex,text));
+            //addTodoItemRequest(itemIndex,text,dispatch);
         }
     }
 }
