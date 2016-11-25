@@ -33,7 +33,7 @@ const AddTodoBar = ( {itemIndex, onAddTodo} ) => {
 const mapStateToProps = (state, ownProps) => {
     //console.log("state.filter is " + state.filter);
     return {
-        itemIndex: state.todoList.todos.length
+        itemIndex: state.todoList.itemIndex
     }
 }
 

@@ -7,5 +7,6 @@ router.route('/todos').get(TodoController.getTodos);
 
 router.route('/todos').post(TodoController.addTodoItem);
 
+router.route('/todos/:id').delete(TodoController.deleteItem);
 
 export default router;

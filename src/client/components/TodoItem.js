@@ -9,10 +9,10 @@ const TodoItem = ({text, completed, onClick, removeItem}) => {
             style = {{ textDecoration: completed ? "line-through" : "none"}} 
         >{text}
         {' '}
+        </li>
          <button
             onClick = {removeItem}
          >X</button>
-        </li>
         </div>
     );
 }

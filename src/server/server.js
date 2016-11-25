@@ -96,7 +96,14 @@ function handleRender(req, res) {
       res.status(500).send(err);
     }
 
-    const store = configureStore({todoList:{todos:[...todos], itemIndex:todos.length}});
+    var itemIndex = 0; 
+    if(todos !== null){
+      var myArray = todos.map((todo) => { return todo.id});
+      console.log("myArray is " + myArray.toString());
+      itemIndex = Math.max(...myArray);
+    }
+    console.log("itemIndex is " + itemIndex);
+    const store = configureStore({todoList:{todos:[...todos], itemIndex:itemIndex}});
 
     const html = renderToString(
       <Provider store={store}>

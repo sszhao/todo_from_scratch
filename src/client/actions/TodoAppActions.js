@@ -18,7 +18,7 @@ export const addTodoItemRequest = (id, text) => {
     return (dispatch) => {
         callApi('todos', 'post', {
             todoItem: {
-                id: id,
+                id: id+1,
                 text: text,
                 completed: false
             }
@@ -45,6 +45,17 @@ export const removeTodoItem = (id) => ({
     type: 'REMOVE_TODO_ITEM', 
     id
 });
+
+export const deleteItemRequest = (mid) => {
+    console.log("deleteItemRequest called " + mid);
+    return (dispatch) => {
+        callApi(`todos/${mid}`, 'delete', {id:mid}).then(
+            () => dispatch(removeTodoItem(mid))
+        ).catch(
+            (err) => console.log("error: " + err)
+        )
+    }
+};
 
 export const setFilter = (filter) => ({
     type: 'SET_FILTER', 

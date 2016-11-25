@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TodoList from '../components/TodoList'
-import {toggleTodoStatus, removeTodoItem} from '../actions/TodoAppActions'
+import {toggleTodoStatus, deleteItemRequest} from '../actions/TodoAppActions'
 
 const getTodosByFilter = (todos, filter) => {
     switch (filter) {
@@ -23,10 +23,21 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = ({
-        onTodoClick: toggleTodoStatus, 
-        onRemoveItem: removeTodoItem
-})
+// const mapDispatchToProps = ({
+//         onTodoClick: toggleTodoStatus, 
+//         onRemoveItem: removeTodoItem
+// })
+
+const mapDispatchToProps = (dispatch) => {
+ return {
+        onTodoClick: (id) => {
+            dispatch(toggleTodoStatus(id));
+        },
+        onRemoveItem: (id) => {
+            dispatch(deleteItemRequest(id));
+        }
+    }
+}
 
 
 const TodoListContainer =  connect(mapStateToProps, mapDispatchToProps)(TodoList);

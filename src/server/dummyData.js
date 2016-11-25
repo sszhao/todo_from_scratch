@@ -1,4 +1,5 @@
 import TodoItem from './models/todoItem';
+import config from './config';
 
 export default function () {
   TodoItem.count().exec((err, count) => {
@@ -6,8 +7,10 @@ export default function () {
       return;
     }
 
-    const item1 = new TodoItem({ id: 1, text: 'Hello MERN', completed: false });
-    const item2 = new TodoItem({ id: 2, text: 'Lorem Ipsum', completed: false });
+    const item1 = new TodoItem({ id: config.itemIndex, text: 'Hello MERN', completed: false });
+    config.itemIndex++;
+    const item2 = new TodoItem({ id: config.itemIndex, text: 'Lorem Ipsum', completed: false });
+    config.itemIndex++;
 
     TodoItem.create([item1, item2], (error) => {
       if (!error) {

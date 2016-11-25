@@ -18,11 +18,16 @@ export function callApi(endpoint, method = 'get', body) {
       if (response.status >= 400) {
           throw new Error("Bad response from server");
       }
-      return response.json();
+
+      console.log("response in callapi is " + response);
+      if(!response)
+        return response.json();
+      else
+        return "";
   })
   .then(function(stories) {
-      //console.log(stories);
-      return stories;
+      console.log("stories is" + stories);
+      return stories;  
   })
 
   // .then(response => response.json().then(json => ({ json, response })))

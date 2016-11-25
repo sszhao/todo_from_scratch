@@ -40,3 +40,21 @@ export function addTodoItem(req, res) {
     console.log('success: server has sent the response.');
   });
 }
+
+
+export function deleteItem(req, res) {
+  
+  console.log("todo request id is " + req.params.id);
+  
+  TodoItem.findOne({ id: req.params.id }).exec((err, todo) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    console.log("todo id " + todo.id + " and text is " + todo.text);
+    todo.remove(() => {
+      res.status(200).end();
+    });
+  });
+
+  //console.log('success: server has sent the response.');
+}
