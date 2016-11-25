@@ -19,16 +19,17 @@ export function callApi(endpoint, method = 'get', body) {
           throw new Error("Bad response from server");
       }
 
-      console.log("response in callapi is " + response);
-      if(!response)
-        return response.json();
-      else
-        return "";
+      // console.log("response in callapi is " + response);
+      // if(response !== null)
+      //   return response.json();
+      // else
+      //   return "";
+      return response;
   })
-  .then(function(stories) {
-      console.log("stories is" + stories);
-      return stories;  
-  })
+  // .then(function(stories) {
+  //     console.log("stories is" + stories);
+  //     return stories;  
+  // })
 
   // .then(response => response.json().then(json => ({ json, response })))
   // .then(({ json, response }) => {

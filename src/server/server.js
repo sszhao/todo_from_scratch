@@ -96,13 +96,14 @@ function handleRender(req, res) {
       res.status(500).send(err);
     }
 
+    //set the itemIndex to be the max id number 
     var itemIndex = 0; 
     if(todos !== null){
       var myArray = todos.map((todo) => { return todo.id});
-      console.log("myArray is " + myArray.toString());
+      //console.log("myArray is " + myArray.toString());
       itemIndex = Math.max(...myArray);
     }
-    console.log("itemIndex is " + itemIndex);
+    //console.log("itemIndex is " + itemIndex);
     const store = configureStore({todoList:{todos:[...todos], itemIndex:itemIndex}});
 
     const html = renderToString(
