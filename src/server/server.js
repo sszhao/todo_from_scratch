@@ -73,6 +73,7 @@ app.use(webpackHotMiddleware(compiler));
 //app.use(Express.static(path.resolve(__dirname, '../dist')));
 
 //Shen: not sure what is this doing here? 
+app.use(bodyParser.json());
 app.use('/api', todoRoutes);
 
 import TodoItem from './models/todoItem';

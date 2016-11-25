@@ -14,17 +14,20 @@ export const addTodoItem  = (text) => ({
     text 
 }); 
 
-export function addTodoItemRequest(id, text) {
-  return (dispatch) => {
-    return callApi('todos', 'post', {
-      todoItem: {
-        id: id,
-        text: text,
-        completed: false
-      }
-    }).then(res => dispatch(addTodoItem(res.todoItem.text)));
-  };
-}
+export const addTodoItemRequest = (id, text) => {
+    return (dispatch) => {
+        callApi('todos', 'post', {
+            todoItem: {
+                id: id,
+                text: text,
+                completed: false
+            }
+        }).then(response => {
+            console.log(response)
+            dispatch(addTodoItem(text))
+        })
+    }
+};
 
 //I need to think about this method. 
 export const getTodos = (todos) => ({
