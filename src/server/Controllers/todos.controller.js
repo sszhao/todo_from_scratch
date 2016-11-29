@@ -59,20 +59,6 @@ export function deleteItem(req, res) {
   //console.log('success: server has sent the response.');
 }
 
-// export function toggleItem(req, res) {
-//   TodoItem.findOneAndUpdate(
-//     { 
-//       id: req.params.id, 
-//       text: req.params.text,
-//       completed: req.params.completed
-//      }
-//   ).exec((err, todo) => {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   }
-// }
-    
 
 export function toggleItem(req, res) {
 
@@ -85,18 +71,25 @@ export function toggleItem(req, res) {
   query.exec(function (err, todo) {
     if (err) 
       res.status(500).send(err)
-    todo.update(
-      {
-        completed: !todo.completed
-      },
-      
-      (err, res) => {
-        if (err)
-          console.log('error from update ' + err)
-        else
-          console.log('response from update ' + res)
-      }
-    )
+    if(!todo) { 
+      console.log("no ids match request id")
+      res.status(500).send(err)
+    }
+    else {  
+      todo.update(
+        {
+          completed: !todo.completed
+        },
+        
+        (err, res) => {
+          if (err)
+            console.log('error from update ' + err)
+          else
+            console.log('response from update ' + res)
+        }
+      )
+    }
   })
 
 }
+

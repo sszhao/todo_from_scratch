@@ -3,18 +3,17 @@ import React, {PropTypes} from 'react';
 const TodoItem = ({text, completed, onClick, removeItem}) => {
     return (
         <div>
-        <li
-            //the first {} is for expression, the second one is for object
-            onClick = {onClick} 
-            style = {{ textDecoration: completed ? "line-through" : "none"}} 
-        >{text}
-        {' '}
-          <button
-            onClick = {removeItem}
-         >X</button>
-         </li>
+            <li 
+                //the first {} is for expression, the second one is for object
+                onClick = {onClick} 
+                style = {{ textDecoration: completed ? "line-through" : "none"}}
+            >
+                {text}
+                {' '}
+            </li>
+            <button onClick = {removeItem}>X</button>
         </div>
-    );
+    )
 }
 
 TodoItem.propTypes = {
