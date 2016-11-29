@@ -40,8 +40,6 @@ import todoRoutes from './routes/todo.routes';
 
 import todoAppReducer from '../client/reducers/TodoAppReducer';
 
-
-
 //Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -53,7 +51,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   }
 
   // feed some dummy data in DB.
-  dummyData();
+  //dummyData();
 });
 
 

@@ -24,6 +24,7 @@ export function callApi(endpoint, method = 'get', body) {
       //   return response.json();
       // else
       //   return "";
+      //console.log(response)
       return response;
   })
   // .then(function(stories) {

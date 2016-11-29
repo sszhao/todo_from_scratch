@@ -41,6 +41,40 @@ export const toggleTodoStatus = (id) => ({
     id
 });
 
+// export const toggleTodoRequest = (id) => {
+//     console.log("Toggle Todo Requested on id " + id)
+//     return (dispatch) => {
+//         callApi('todos', 'get'
+//         )
+//         .then( (res) => res.json())
+//         .then( obj => obj.todos.filter(t => t.id === id) )
+//         .then( todo => {
+//             console.log(todo[0].text) 
+//             callApi(`todos/${id}`, 'post', 
+//                 {
+//                     id,
+//                     //text: todo[0].text,
+//                     //completed: !(todo[0].completed)
+//                 }
+//             )
+//         }
+//         ).
+//         then( () => dispatch(toggleTodoStatus(id)))
+//         .catch( err => console.log(err) )
+        
+//     }
+// }
+
+export const toggleTodoRequest = (id) => {
+    console.log("Toggle Todo Requested on id " + id)
+    return (dispatch) => {
+        callApi( `todos/${id}`, 'post', {id} )
+        .then(dispatch(toggleTodoStatus(id)))
+        .catch( err => console.log(err) )
+    }
+}
+
+
 export const removeTodoItem = (id) => ({
     type: 'REMOVE_TODO_ITEM', 
     id
