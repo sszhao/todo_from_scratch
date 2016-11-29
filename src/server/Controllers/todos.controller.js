@@ -7,6 +7,7 @@ import TodoItem from '../models/todoItem';
  * @returns void
  */
 export function getTodos(req, res) {
+  console.log('using this code')
   TodoItem.find().exec((err, todos) => {
     if (err) {
       res.status(500).send(err);
@@ -43,7 +44,6 @@ export function addTodoItem(req, res) {
 
 
 export function deleteItem(req, res) {
-  
   console.log("todo request id is " + req.params.id);
   
   TodoItem.findOne({ id: req.params.id }).exec((err, todo) => {
@@ -58,3 +58,38 @@ export function deleteItem(req, res) {
 
   //console.log('success: server has sent the response.');
 }
+
+
+export function toggleItem(req, res) {
+
+  // return all rows matching id obtained from the id in request
+  var query = TodoItem.findOne(
+                 { id: req.params.id }  // condition
+              )
+  
+  // execute the query 
+  query.exec(function (err, todo) {
+    if (err) 
+      res.status(500).send(err)
+    if(!todo) { 
+      console.log("no ids match request id")
+      res.status(500).send(err)
+    }
+    else {  
+      todo.update(
+        {
+          completed: !todo.completed
+        },
+        
+        (err, res) => {
+          if (err)
+            console.log('error from update ' + err)
+          else
+            console.log('response from update ' + res)
+        }
+      )
+    }
+  })
+
+}
+

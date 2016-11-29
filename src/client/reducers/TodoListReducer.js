@@ -8,7 +8,8 @@ import React from 'react';
 export const todo = (state, action) => {
     switch (action.type) {
         case 'ADD_TODO_ITEM':
-            state.itemIndex ++; 
+            state.itemIndex ++;
+            console.log("id getting added: " + state.itemIndex) 
             return {
                 id: state.itemIndex,
                 text: action.text,
